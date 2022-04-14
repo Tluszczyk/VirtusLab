@@ -26,7 +26,7 @@ def remove_files(basefilepath, type):
     temp_sort_files = glob.glob(temp_sort_file_path)
     for temp_sort_file in temp_sort_files:
         try:
-            permission = input(f"remove file {temp_sort_file}? y/[n]").lower()
+            permission = 'y'#input(f"remove file {temp_sort_file}? y/[n]").lower()
             if permission == 'y' or permission == "yes":
                 os.remove(temp_sort_file)
             else:
