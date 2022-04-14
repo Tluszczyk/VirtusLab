@@ -4,7 +4,7 @@ import glob
 def read_at_most_n_bytes_of_records(file, n):
     buffer = ''
 
-    # TODO: records that have break in them
+    # TODO: records that have break in them?
     
     while True:
         file_pos = file.tell()
@@ -20,8 +20,8 @@ def read_at_most_n_bytes_of_records(file, n):
             buffer += line
 
 
-def remove_temp_sort_files(basefilepath):
-    temp_sort_file_path = f"{basefilepath[:-4]}_temp_sort_*.csv"
+def remove_files(basefilepath, type):
+    temp_sort_file_path = f"{basefilepath[:-4]}_{type}.csv"
 
     temp_sort_files = glob.glob(temp_sort_file_path)
     for temp_sort_file in temp_sort_files:
@@ -33,3 +33,10 @@ def remove_temp_sort_files(basefilepath):
                 print("Didn't remove the file")
         except OSError:
             print("Error while deleting file")
+
+
+def remove_temp_sort_files(basefilepath):
+    remove_files(basefilepath, "temp_sort_*")
+
+def remove_sorted_files(basefilepath):
+    remove_files(basefilepath, "sorted")
