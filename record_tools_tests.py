@@ -22,15 +22,19 @@ TESTS = [
 
 def runtests():
     err = 0
+    print("record tools tests:")
     for TEST, function, name in zip(TESTS, TESTED, NAMES):
-        print(f'TESTS for function {name}:')
+        print(f'\t{name} test:')
         err_test = 0
-        for args, result in TEST:
+        for i, (args, result) in enumerate(TEST):
             got = function(args)
             if got != result:
                 err_test += 1
-                print(f"\t{name}: args: {args}, expected: {result} got: {got}")
+                print(f"\t\t{name}: test {i+1}: args: {args}, expected: {result} got: {got}")
+            else:
+                print(f"\t\ttest {i+1}: ok")
         err += err_test
 
         print(f'\t{name}: OK' if err_test==0 else f'{name}: {err} ERRORS')    
-    print("OK" if err==0 else f'{err} ERRORS')
+    print("record_tools: OK" if err==0 else f'record_tools: {err} ERRORS')
+    return err
