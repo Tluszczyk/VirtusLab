@@ -1,6 +1,8 @@
 import sys
 from join_csv import join_csv
 
+from sort_csv import sort_csv
+
 if __name__ == '__main__':
     a_file_path = sys.argv[1]
     b_file_path = sys.argv[2]

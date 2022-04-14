@@ -1,5 +1,5 @@
 from file_tools import read_at_most_n_bytes_of_records, remove_temp_sort_files
-from record_tools import split_record
+from record_tools import split_record, remove_trailing_break
 from settings import *
 from merge import merge
 
@@ -13,9 +13,7 @@ def sort_bulk(bulk, index):
 def sort_csv(filepath, column_name):
     file = open(filepath)
 
-    # TODO: quotes in the header?
-
-    header = file.readline()
+    header = remove_trailing_break(file.readline())
     index = header.split(',').index(column_name)
 
     temp_file_paths = {}
@@ -30,14 +28,15 @@ def sort_csv(filepath, column_name):
         bulk_file_path = f"{filepath[:-4]}_temp_sort_{bulk_count}.csv"
         bulk_file = open(bulk_file_path, 'a')
 
-        bulk_file.write(header)
+        bulk_file.write(header+'\n')
         bulk_file.write(bulk)
 
         bulk_file.close()
 
-        temp_file_paths[key] = bulk_file_path;
-
-        print(f'bulk nr {bulk_count}: {bulk}')
+        if key in temp_file_paths:
+            temp_file_paths[key].append(bulk_file_path);
+        else:
+            temp_file_paths[key] = [bulk_file_path]
         bulk_count += 1
 
     file.close()
