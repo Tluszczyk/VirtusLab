@@ -17,3 +17,7 @@ def split_record(record):
         else:
             curr += c
     return res + [curr]
+
+def remove_trailing_break(record):
+    if record == "": return ""
+    return record[:-1] if record[-1] == '\n' else record
