@@ -35,10 +35,14 @@ def validate_input(a,b,c,j):
 
 
 if __name__ == '__main__':
+    argc = len(sys.argv)-1
+    if argc < 3: raise Exception("You have to specify at least two input files, and a column name")
+    if argc > 4: raise Exception("Too many inputs")
+
     a_file_path = sys.argv[1]
     b_file_path = sys.argv[2]
     column = sys.argv[3]
-    join_type = sys.argv[4]
+    join_type = 'inner' if argc==3 else sys.argv[4]
 
     validate_input(a_file_path, b_file_path, column, join_type)
     

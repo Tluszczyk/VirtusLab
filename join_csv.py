@@ -80,7 +80,7 @@ def join(a_file_path, b_file_path, column_name, join_type):
 
             elif join_type == 'right':
                 a_null_record_split = ["NULL"] * len(a_split_record)
-                a_null_record_split[a_join_column_index] = a_split_record[a_join_column_index]
+                a_null_record_split[a_join_column_index] = main_split_record[b_join_column_index]
 
                 b_line_no_joined_column = ','.join(main_split_record[:b_join_column_index] + main_split_record[b_join_column_index+1:]) + '\n'
 
