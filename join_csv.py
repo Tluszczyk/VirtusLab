@@ -4,17 +4,20 @@ from record_tools import split_record, remove_trailing_break
 from sort_csv import sort_csv
 from file_tools import remove_sorted_files
 
+def create_joined_name(a_file_path, b_file_path, join_type):
+    a_name = os.path.basename(a_file_path)[:-11]
+    b_name = os.path.basename(b_file_path)[:-11]
+    base_path = os.path.dirname(a_file_path)
+    return f'{base_path}/{a_name}_{join_type}_{b_name}.csv'
+
 def join(a_file_path, b_file_path, column_name, join_type):
     def choose_on_type(alt_left, alt_right):
         return alt_left if join_type != 'right' else alt_right
 
-    base_path = os.path.dirname(a_file_path)
-
-    a_name = os.path.basename(a_file_path)[:-11]
-    b_name = os.path.basename(b_file_path)[:-11]
+    joined_file_path = create_joined_name(a_file_path, b_file_path, join_type)
 
     a_file,b_file = open(a_file_path), open(b_file_path)
-    joined_file = open(f'{base_path}/{a_name}_{join_type}_{b_name}.csv', 'a')
+    joined_file = open(joined_file_path, 'a')
     
     a_header = a_file.readline()
     b_header = b_file.readline()
@@ -28,7 +31,7 @@ def join(a_file_path, b_file_path, column_name, join_type):
 
     joined_header = remove_trailing_break(a_header) + ',' + ','.join(b_header_split[:b_join_column_index] + b_header_split[b_join_column_index+1:]) + '\n'
     joined_file.write(joined_header)
-    print(joined_header)
+    print(joined_header, end="")
 
     main_file = choose_on_type(a_file, b_file)
     sub_file  = choose_on_type(b_file, a_file)
@@ -57,13 +60,13 @@ def join(a_file_path, b_file_path, column_name, join_type):
 
             if b_split_record[b_join_column_index] == a_split_record[a_join_column_index]:
                 joined_file.write(a_line + ',' + b_line_no_joined_column)
-                print(a_line + ',' + b_line_no_joined_column)
+                print(a_line + ',' + b_line_no_joined_column, end="")
                 found_match = True
                 
         if not found_match:
             if join_type == 'left':
                 joined_file.write(a_line + ',' + b_null_record + '\n')
-                print(a_line + ',' + b_null_record + '\n')
+                print(a_line + ',' + b_null_record)
 
             elif join_type == 'right':
                 a_null_record_split = ["NULL"] * len(a_split_record)
@@ -72,7 +75,7 @@ def join(a_file_path, b_file_path, column_name, join_type):
                 b_line_no_joined_column = ','.join(main_split_record[:b_join_column_index] + main_split_record[b_join_column_index+1:]) + '\n'
 
                 joined_file.write(','.join(a_null_record_split) + ',' + b_line_no_joined_column + '\n')
-                print(','.join(a_null_record_split) + ',' + b_line_no_joined_column + '\n')
+                print(','.join(a_null_record_split) + ',' + b_line_no_joined_column)
 
     joined_file.close()
     a_file.close()

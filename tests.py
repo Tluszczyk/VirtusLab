@@ -1,9 +1,11 @@
 import record_tools_tests
 import sort_csv_tests
+import join_csv_tests
 
 tests = [
     record_tools_tests,
-    sort_csv_tests
+    sort_csv_tests,
+    # join_csv_tests
 ]
 
 if __name__ == '__main__':
