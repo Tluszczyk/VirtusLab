@@ -5,12 +5,18 @@ from sort_csv import sort_csv
 from file_tools import remove_sorted_files
 
 def create_joined_name(a_file_path, b_file_path, join_type):
+    '''
+    creates name of joined file based on input files names
+    '''
     a_name = os.path.basename(a_file_path)[:-11]
     b_name = os.path.basename(b_file_path)[:-11]
     base_path = os.path.dirname(a_file_path)
     return f'{base_path}/{a_name}_{join_type}_{b_name}.csv'
 
 def join(a_file_path, b_file_path, column_name, join_type):
+    '''
+    joins csv files
+    '''
     def choose_on_type(alt_left, alt_right):
         return alt_left if join_type != 'right' else alt_right
 
@@ -22,17 +28,21 @@ def join(a_file_path, b_file_path, column_name, join_type):
     a_header = a_file.readline()
     b_header = b_file.readline()
 
+    # index, pointing to the column that the join is based on
     a_join_column_index = a_header.split(',').index(column_name)
     b_join_column_index = b_header.split(',').index(column_name)
 
     b_header_split = remove_trailing_break(b_header).split(',')
 
+    # if the join is left, and there is no match, we can use b_null
     b_null_record = ','.join(map(lambda _: "NULL", b_header_split))
 
+    # header of the joined file
     joined_header = remove_trailing_break(a_header) + ',' + ','.join(b_header_split[:b_join_column_index] + b_header_split[b_join_column_index+1:]) + '\n'
     joined_file.write(joined_header)
     print(joined_header, end="")
 
+    # main csv is the csv, which the join will be on (e.g. Main left Sub, Sub right Main)
     main_file = choose_on_type(a_file, b_file)
     sub_file  = choose_on_type(b_file, a_file)
 

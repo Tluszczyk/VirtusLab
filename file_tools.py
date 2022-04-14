@@ -2,9 +2,10 @@ import os
 import glob
 
 def read_at_most_n_bytes_of_records(file, n):
+    '''
+    reads at most n bytes of lines from a csv file
+    '''
     buffer = ''
-
-    # TODO: records that have break in them?
     
     while True:
         file_pos = file.tell()
@@ -21,6 +22,10 @@ def read_at_most_n_bytes_of_records(file, n):
 
 
 def remove_files(basefilepath, type):
+    '''
+    removes files that are labeled with type
+    '''
+
     temp_sort_file_path = f"{basefilepath[:-4]}_{type}.csv"
 
     temp_sort_files = glob.glob(temp_sort_file_path)

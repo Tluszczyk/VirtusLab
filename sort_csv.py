@@ -4,6 +4,7 @@ from settings import *
 from merge import merge
 
 def sort_bulk(bulk, index):
+    ''' sorts small (max memory size) chunks of csv records '''
     records = bulk.splitlines()
 
     s = sorted(records, key=lambda r: split_record(r)[index])
@@ -11,6 +12,7 @@ def sort_bulk(bulk, index):
 
 
 def sort_csv(filepath, column_name):
+    ''' splits file to multiple smaller files, then sorts them all and merges with heap '''
     file = open(filepath)
 
     header = remove_trailing_break(file.readline())

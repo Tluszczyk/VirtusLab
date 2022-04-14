@@ -4,10 +4,12 @@ from join_csv import join_csv
 from record_tools import remove_trailing_break
 
 def validate_file(f):
+    ''' check if the file exists '''
     if not os.path.exists(f):
         raise Exception("File does not exist")
 
 def validate_column(a, b, column):
+    ''' check if the specified column exists in both files '''
     with open(a) as fa, open(b) as fb:
         aheaders = remove_trailing_break(fa.readline()).split(',')
         bheaders = remove_trailing_break(fb.readline()).split(',')
@@ -21,6 +23,7 @@ def validate_column(a, b, column):
         fb.close()
 
 def validate_join_type(j):
+    ''' check if the specified join type is one of these three '''
     if j not in ["left", "right", "inner"]:
         raise Exception("join type must be one of those (left, right, inner)")
 

@@ -3,6 +3,9 @@ from queue import PriorityQueue
 from record_tools import split_record
 
 def merge(basefilepath, header, temp_file_map: dict, column_index):
+    '''
+    merge all temporary sorted files into one sorted file with heap
+    '''
     class PriorityEntry(object):
         def __init__(self, key, data):
             self.key = key

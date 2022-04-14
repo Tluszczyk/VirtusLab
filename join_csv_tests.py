@@ -13,6 +13,10 @@ TESTS = [
 ]   
 
 def check_if_joined(a_path, b_path, column, join_type):
+    '''
+    should check if two csv files are properly joined
+    '''
+
     joined_path = create_joined_name(a_path, b_path, join_type)
 
     a_csv = pd.read_csv(a_path)
@@ -33,6 +37,9 @@ def check_if_joined(a_path, b_path, column, join_type):
 
 
 def runtests():
+    '''
+    runs tests given by TESTS constant
+    '''
     err = 0
     print("join csv tests")
     for i, (a_path, b_path, column, join_type) in enumerate(TESTS):
